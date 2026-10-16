@@ -1,36 +1,36 @@
-﻿# FiscalMind
+# FiscalMind
 
-Assistente RAG sobre a documentaÃ§Ã£o da NF-e (Manual de OrientaÃ§Ã£o do Contribuinte, Notas TÃ©cnicas, tabelas de CST/CFOP) que **sempre cita a fonte â€” ou diz que nÃ£o encontrou**.
+Assistente RAG sobre a documentação da NF-e (Manual de Orientação do Contribuinte, Notas Técnicas, tabelas de CST/CFOP) que **sempre cita a fonte — ou diz que não encontrou**.
 
-> Ferramenta informativa sobre documentaÃ§Ã£o pÃºblica. NÃ£o Ã© consultoria fiscal.
+> Ferramenta informativa sobre documentação pública. Não é consultoria fiscal.
 
-<!-- GIF: docs/demo.gif â€” chat respondendo "rejeiÃ§Ã£o 539" com citaÃ§Ã£o e painel de fontes -->
+<!-- GIF: docs/demo.gif — chat respondendo "rejeição 539" com citação e painel de fontes -->
 
 ## Por que
 
-Um LLM sozinho inventa nÃºmeros de rejeiÃ§Ã£o e regras com toda a confianÃ§a. No domÃ­nio fiscal, isso Ã© pior do que nÃ£o responder. O FiscalMind trata a citaÃ§Ã£o como **estrutura verificÃ¡vel**, nÃ£o como texto:
+Um LLM sozinho inventa números de rejeição e regras com toda a confiança. No domínio fiscal, isso é pior do que não responder. O FiscalMind trata a citação como **estrutura verificável**, não como texto:
 
 1. O Claude responde por uma ferramenta (`responder`) com `{ resposta, encontrado, citacoes: [{ chunkId, trecho }] }`.
-2. Um guardrail confere cada citaÃ§Ã£o: o `chunkId` precisa estar no contexto enviado **e** o trecho precisa aparecer literalmente naquele chunk.
-3. Sem nenhuma citaÃ§Ã£o vÃ¡lida, a resposta vira recusa. Recusar uma pergunta fora do escopo conta como acerto na avaliaÃ§Ã£o.
+2. Um guardrail confere cada citação: o `chunkId` precisa estar no contexto enviado **e** o trecho precisa aparecer literalmente naquele chunk.
+3. Sem nenhuma citação válida, a resposta vira recusa. Recusar uma pergunta fora do escopo conta como acerto na avaliação.
 
 ## Arquitetura
 
 ```
-PDF â”€â–º extraÃ§Ã£o (pdfjs, por pÃ¡gina) â”€â–º chunker hierÃ¡rquico â”€â–º metadados (rejeiÃ§Ã£o/CST/CFOP) â”€â–º embeddings
-                                        (seÃ§Ã£o > subseÃ§Ã£o,     â”‚
-                                         1 chunk por linha      â–¼
-                                         da tabela)       PostgreSQL + pgvector (HNSW) + tsvector (portuguÃªs)
+PDF ─► extração (pdfjs, por página) ─► chunker hierárquico ─► metadados (rejeição/CST/CFOP) ─► embeddings
+                                        (seção > subseção,     │
+                                         1 chunk por linha      ▼
+                                         da tabela)       PostgreSQL + pgvector (HNSW) + tsvector (português)
 
-Pergunta â”€â”¬â”€ "539" / "rejeiÃ§Ã£o 539" â”€â–º Ã­ndice de metadados â”€â–º resposta direta, sem LLM
-          â””â”€ demais â”€â–º vetorial âˆ¥ full-text â”€â–º RRF â”€â–º rerank â”€â–º contexto limitado por tokens
-                                                                   â”‚
-                                        Claude (streaming, tool use) â”€â–º guardrail â”€â–º resposta + citaÃ§Ãµes | recusa
+Pergunta ─┬─ "539" / "rejeição 539" ─► índice de metadados ─► resposta direta, sem LLM
+          └─ demais ─► vetorial ∥ full-text ─► RRF ─► rerank ─► contexto limitado por tokens
+                                                                   │
+                                        Claude (streaming, tool use) ─► guardrail ─► resposta + citações | recusa
 ```
 
-- **Ports & Adapters**: `EmbeddingProvider`, `VectorStore`, `Reranker`, `LlmClient` sÃ£o interfaces. Adapters: Postgres/pgvector, Voyage (`voyage-3` + `rerank-2`), Claude, e versÃµes em memÃ³ria para testes e avaliaÃ§Ã£o offline.
-- **IngestÃ£o idempotente**: ids de chunk estÃ¡veis (`sha256(documento, seÃ§Ã£o, Ã­ndice)`) e hash de conteÃºdo por documento; reingerir sem mudanÃ§as nÃ£o faz nada.
-- **Custo**: system prompt estÃ¡vel com prompt caching; contexto limitado por tokens, nÃ£o por nÃºmero de chunks.
+- **Ports & Adapters**: `EmbeddingProvider`, `VectorStore`, `Reranker`, `LlmClient` são interfaces. Adapters: Postgres/pgvector, Voyage (`voyage-3` + `rerank-2`), Claude, e versões em memória para testes e avaliação offline.
+- **Ingestão idempotente**: ids de chunk estáveis (`sha256(documento, seção, índice)`) e hash de conteúdo por documento; reingerir sem mudanças não faz nada.
+- **Custo**: system prompt estável com prompt caching; contexto limitado por tokens, não por número de chunks.
 
 ## Rodando
 
@@ -40,7 +40,7 @@ Requisitos: Node 20+, pnpm 9. Docker, para o Postgres.
 pnpm install
 ```
 
-**Modo demo** (sem banco nem chaves; usa um corpus sintÃ©tico de testes):
+**Modo demo** (sem banco nem chaves; usa um corpus sintético de testes):
 
 ```bash
 pnpm dev:api
@@ -50,13 +50,13 @@ pnpm dev:api
 pnpm dev:web
 ```
 
-Abra http://localhost:5173. Sem `ANTHROPIC_API_KEY`, sÃ³ a consulta por cÃ³digo de rejeiÃ§Ã£o responde. As outras perguntas mostram os trechos recuperados e uma recusa explicada.
+Abra http://localhost:5173. Sem `ANTHROPIC_API_KEY`, só a consulta por código de rejeição responde. As outras perguntas mostram os trechos recuperados e uma recusa explicada.
 
-**Com a documentaÃ§Ã£o real:**
+**Com a documentação real:**
 
 1. Copie `.env.example` para `.env` e preencha `DATABASE_URL`, `VOYAGE_API_KEY` e `ANTHROPIC_API_KEY`.
 2. Suba o banco: `pnpm db:up`.
-3. Baixe os PDFs das URLs oficiais listadas em `data/sources.json` para `data/sources/<id>.pdf`. Os PDFs nÃ£o sÃ£o versionados.
+3. Baixe os PDFs das URLs oficiais listadas em `data/sources.json` para `data/sources/<id>.pdf`. Os PDFs não são versionados.
 4. Rode `pnpm ingest`, depois `pnpm dev:api` e `pnpm dev:web`.
 
 ## Qualidade
@@ -69,28 +69,29 @@ pnpm test
 pnpm eval
 ```
 
-- Testes unitÃ¡rios: chunker, metadados (com falsos positivos como `R$ 539,00`), RRF, guardrail, rota determinÃ­stica, adapter do Claude com stream simulado e API via `inject`.
-- IntegraÃ§Ã£o (`tests/integration`): Postgres + pgvector em Testcontainers, com cerca de 200 chunks. Roda na CI ou localmente com `RUN_INTEGRATION=1`.
-- AvaliaÃ§Ã£o: `data/eval/perguntas.jsonl` traz perguntas no escopo e fora dele. `pnpm eval` roda offline na CI e falha se o recall@5 cair abaixo de `data/eval/baseline.json`. `pnpm eval --db --llm` mede recall@5, groundedness, correÃ§Ã£o e recusas na base real e grava em [`report/eval.md`](report/eval.md).
+- Testes unitários: chunker, metadados (com falsos positivos como `R$ 539,00`), RRF, guardrail, rota determinística, adapter do Claude com stream simulado e API via `inject`.
+- Integração (`tests/integration`): Postgres + pgvector em Testcontainers, com cerca de 200 chunks. Roda na CI ou localmente com `RUN_INTEGRATION=1`.
+- Avaliação: `data/eval/perguntas.jsonl` traz perguntas no escopo e fora dele. `pnpm eval` roda offline na CI e falha se o recall@5 cair abaixo de `data/eval/baseline.json`. `pnpm eval --db --llm` mede recall@5, groundedness, correção e recusas na base real e grava em [`report/eval.md`](report/eval.md).
 
 ## Stack
 
-TypeScript Â· Claude (`@anthropic-ai/sdk`: tool use, streaming, prompt caching) Â· Voyage AI Â· PostgreSQL + pgvector Â· pdfjs-dist Â· Fastify (SSE) Â· React + Vite + Tailwind Â· Vitest + Testcontainers
+TypeScript · Claude (`@anthropic-ai/sdk`: tool use, streaming, prompt caching) · Voyage AI · PostgreSQL + pgvector · pdfjs-dist · Fastify (SSE) · React + Vite + Tailwind · Vitest + Testcontainers
 
+## Status
+
+Etapas 1 a 6 concluídas (setup, ingestão, recuperação, geração, avaliação e UI).
+
+Pendências conhecidas:
+
+- rodar a avaliação na base real e publicar recall@5 e groundedness em `report/eval.md`
+- GIF do chat citando o manual
+- o teste de integração com pgvector exige Docker
 
 ## Licença
 
-### Uso Pessoal
-Este projeto é licenciado sob a **Licença MIT** para uso pessoal, educacional e não comercial.
+Este projeto usa **licença dupla**. O texto completo está em [LICENSE](LICENSE).
 
-### Uso Comercial
-Se você deseja usar este projeto comercialmente, deve obter uma licença comercial do autor.
+- **Uso pessoal, educacional e não comercial:** livre, nos termos da licença MIT (mantenha o aviso de copyright).
+- **Uso comercial:** exige licença comercial. Isso inclui usar em produto ou serviço comercial, vender acesso ou derivados, usar em atividades com fins lucrativos e implantar em empresas.
 
-**Uso comercial inclui:**
-- Incorporar em um produto comercial
-- Oferecer como serviço
-- Usar em atividades com fins lucrativos
-- Implantação empresarial
-
-**Para obter uma licença comercial:**
-Email: ma.polli@hotmail.com
+Contato para licença comercial: ma.polli@hotmail.com
