@@ -1,0 +1,18 @@
+{"id":"q01","pergunta":"Qual é o prazo para cancelar uma NF-e?","fontes":["prazo regulamentar para o evento de cancelamento"],"respostaEsperada":["24 horas"]}
+{"id":"q02","pergunta":"Por que a SEFAZ retorna a rejeição 539 e como resolver?","fontes":["A rejeição 539 ocorre","539 | Rejeição"],"respostaEsperada":["chave"]}
+{"id":"q03","pergunta":"539","fontes":["539 | Rejeição"],"respostaEsperada":["Duplicidade"]}
+{"id":"q04","pergunta":"O que a carta de correção não pode alterar?","fontes":["A CC-e não pode alterar"],"respostaEsperada":["alíquota"]}
+{"id":"q05","pergunta":"Quais são as modalidades de contingência da NF-e?","fontes":["As modalidades incluem FS-DA"],"respostaEsperada":["EPEC"]}
+{"id":"q06","pergunta":"Como funciona a contingência offline da NFC-e?","fontes":["contingência offline"],"respostaEsperada":["transmitida"]}
+{"id":"q07","pergunta":"Até quando posso inutilizar numeração pulada?","fontes":["A inutilização informa"],"respostaEsperada":["10º dia"]}
+{"id":"q08","pergunta":"Qual CFOP usar na venda de mercadoria de terceiros para outro estado?","fontes":["CFOP 6.102"],"respostaEsperada":["6.102"]}
+{"id":"q09","pergunta":"O que significa o CST 60 do ICMS?","fontes":["O CST 60 indica"],"respostaEsperada":["substituição tributária"]}
+{"id":"q10","pergunta":"Empresa do Simples Nacional usa CST ou CSOSN?","fontes":["Simples Nacional utilizam o CSOSN"],"respostaEsperada":["CSOSN"]}
+{"id":"q11","pergunta":"Qual código de status indica que a nota foi autorizada?","fontes":["código de status 100"],"respostaEsperada":["100"]}
+{"id":"q12","pergunta":"Como verificar se o web service da SEFAZ está funcionando?","fontes":["A consulta de status permite"],"respostaEsperada":["107"]}
+{"id":"q13","pergunta":"Quais eventos o destinatário pode registrar na manifestação?","fontes":["ciência da operação"],"respostaEsperada":["confirmação da operação"]}
+{"id":"q14","pergunta":"rejeição 225","fontes":["225 | Rejeição: Falha no Schema"],"respostaEsperada":["Schema"]}
+{"id":"q15","pergunta":"O que é uso denegado por irregularidade do emitente?","fontes":["301 | Uso Denegado"],"respostaEsperada":["301"]}
+{"id":"f01","pergunta":"Qual a alíquota do imposto de renda para pessoa física em 2026?","fontes":[],"foraDoEscopo":true}
+{"id":"f02","pergunta":"Como emitir um CT-e de transporte multimodal?","fontes":[],"foraDoEscopo":true}
+{"id":"f03","pergunta":"Devo enquadrar minha empresa no lucro presumido?","fontes":[],"foraDoEscopo":true}

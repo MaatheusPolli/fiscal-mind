@@ -1,0 +1,66 @@
+{
+  "_aviso": "Texto sintético redigido para testes e regressão da avaliação. Parafraseia conceitos públicos da NF-e, mas NÃO é trecho do Manual de Orientação do Contribuinte e não deve ser usado como fonte.",
+  "id": "moc-sintetico",
+  "name": "Corpus sintético de testes (não oficial)",
+  "version": "fixture-1",
+  "pages": [
+    { "page": 1, "lines": [
+      "1 Introdução",
+      "Este corpus descreve de forma resumida o fluxo de emissão da Nota Fiscal Eletrônica modelo 55 e da NFC-e modelo 65.",
+      "A NF-e é um documento de existência exclusivamente digital, assinado digitalmente pelo emitente com certificado ICP-Brasil."
+    ]},
+    { "page": 2, "lines": [
+      "2 Web Services",
+      "Os Web Services da SEFAZ recebem as mensagens do contribuinte por meio de conexão segura com autenticação mútua.",
+      "2.1 Autorização",
+      "O serviço de autorização recebe o lote de NF-e, valida o schema XML, a assinatura digital e as regras de negócio antes de autorizar o uso.",
+      "Quando a NF-e é autorizada, a SEFAZ devolve o protocolo de autorização de uso com o código de status 100.",
+      "2.2 Consulta Status do Serviço",
+      "A consulta de status permite verificar se o Web Service da SEFAZ está em operação antes do envio de lotes; o retorno 107 indica serviço em operação."
+    ]},
+    { "page": 3, "lines": [
+      "3 Eventos",
+      "3.1 Cancelamento",
+      "O cancelamento da NF-e é registrado por meio de evento e somente é permitido se a mercadoria ainda não circulou.",
+      "O prazo regulamentar para o evento de cancelamento é de 24 horas contadas da autorização de uso, podendo variar conforme a legislação da UF.",
+      "3.2 Carta de Correção Eletrônica",
+      "A Carta de Correção Eletrônica (CC-e) corrige erros em campos específicos da NF-e.",
+      "A CC-e não pode alterar variáveis que determinam o valor do imposto, como base de cálculo, alíquota, quantidade e valor da operação, nem dados cadastrais que mudem o remetente ou o destinatário.",
+      "3.3 Manifestação do Destinatário",
+      "O destinatário pode registrar eventos de ciência da operação, confirmação da operação, desconhecimento da operação e operação não realizada."
+    ]},
+    { "page": 4, "lines": [
+      "4 Contingência",
+      "Quando não for possível transmitir a NF-e por problemas técnicos, o emitente pode adotar uma modalidade de contingência.",
+      "As modalidades incluem FS-DA (formulário de segurança), EPEC (evento prévio de emissão em contingência) e SVC (SEFAZ Virtual de Contingência, nas versões SVC-AN e SVC-RS).",
+      "Na NFC-e existe a contingência offline, em que a nota é emitida sem autorização prévia e deve ser transmitida à SEFAZ após o restabelecimento da conexão."
+    ]},
+    { "page": 5, "lines": [
+      "5 Inutilização de Numeração",
+      "A inutilização informa à SEFAZ as faixas de numeração de NF-e que foram puladas e não serão utilizadas, devendo ser solicitada até o 10º dia do mês subsequente."
+    ]},
+    { "page": 6, "lines": [
+      "6 Códigos Fiscais",
+      "6.1 CFOP",
+      "O CFOP 5.102 identifica a venda de mercadoria adquirida ou recebida de terceiros em operação interna.",
+      "O CFOP 6.102 identifica a mesma operação quando o destinatário está em outra unidade da federação.",
+      "6.2 CST do ICMS",
+      "O CST 00 indica operação tributada integralmente pelo ICMS.",
+      "O CST 60 indica ICMS cobrado anteriormente por substituição tributária.",
+      "Empresas do Simples Nacional utilizam o CSOSN em vez do CST; o CSOSN 102 indica tributação sem permissão de crédito."
+    ]},
+    { "page": 7, "lines": [
+      "7 Tabela de Códigos de Status",
+      "Código | Descrição",
+      "204 | Rejeição: Duplicidade de NF-e",
+      "217 | Rejeição: NF-e não consta na base de dados da SEFAZ",
+      "225 | Rejeição: Falha no Schema XML da NF-e",
+      "297 | Rejeição: Assinatura difere do calculado",
+      "301 | Uso Denegado: Irregularidade fiscal do emitente",
+      "539 | Rejeição: Duplicidade de NF-e, com diferença na Chave de Acesso",
+      "7.1 Tratamento da Rejeição 539",
+      "A rejeição 539 ocorre quando já existe NF-e com a mesma série e número para o emitente, mas com chave de acesso diferente; normalmente o código numérico ou a data de emissão foram alterados em uma retransmissão.",
+      "Para resolver, consulte a chave já autorizada e não gere uma nova chave para a mesma numeração."
+    ]}
+  ]
+}
